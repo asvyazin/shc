@@ -39,6 +39,8 @@ import org.apache.spark.sql.types._
 import org.apache.spark.sql.{DataFrame, Row, SQLContext, SaveMode}
 import org.apache.spark.sql.execution.datasources.hbase.types.{SHCDataType, SHCDataTypeFactory}
 import org.apache.spark.util.Utils
+import org.apache.hadoop.hbase.client.TableDescriptorBuilder
+import org.apache.hadoop.hbase.client.ColumnFamilyDescriptorBuilder
 
 /**
  * val people = sqlContext.read.format("hbase").load("people")
@@ -151,17 +153,17 @@ case class HBaseRelation(
         throw new InvalidRegionNumberException("Creating a new table should " +
           "specify the number of regions which must be greater than 3.")
       }
-      val tableDesc = new HTableDescriptor(tName)
+      val builder = TableDescriptorBuilder.newBuilder(tName)
       cfs.foreach { x =>
-        val cf = new HColumnDescriptor(x.getBytes())
+        val cfBuilder = ColumnFamilyDescriptorBuilder.newBuilder(x.getBytes())
         logDebug(s"add family $x to ${catalog.name}")
-        maxVersions.foreach(v => cf.setMaxVersions(v))
-        tableDesc.addFamily(cf)
+        maxVersions.foreach(v => cfBuilder.setMaxVersions(v))
+        builder.setColumnFamily(cfBuilder.build())
       }
       val startKey = catalog.shcTableCoder.toBytes(catalog.splitRange._1)
       val endKey = catalog.shcTableCoder.toBytes(catalog.splitRange._2)
       val splitKeys = Bytes.split(startKey, endKey, catalog.numReg - 3)
-      admin.createTable(tableDesc, splitKeys)
+      admin.createTable(builder.build(), splitKeys)
       val r = connection.getRegionLocator(tName).getAllRegionLocations
       while(r == null || r.size() == 0) {
         logDebug(s"region not allocated")
