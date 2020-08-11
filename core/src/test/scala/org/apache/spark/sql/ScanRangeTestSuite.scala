@@ -21,14 +21,15 @@
 package org.apache.spark.sql
 
 import org.apache.spark.sql.execution.datasources.hbase.Logging
-import org.scalatest.{BeforeAndAfterAll, BeforeAndAfterEach, FunSuite}
+import org.scalatest.{BeforeAndAfterAll, BeforeAndAfterEach}
+import org.scalatest.funsuite.AnyFunSuite
 
 import org.apache.hadoop.hbase.util.Bytes
 import org.apache.spark.sql.execution.datasources.hbase
 import org.apache.spark.sql.execution.datasources.hbase.{Bound, ScanRange}
 import org.apache.spark.sql.types.BinaryType
 
-class ScanRangeTestSuite  extends FunSuite with BeforeAndAfterEach with BeforeAndAfterAll  with Logging {
+class ScanRangeTestSuite  extends AnyFunSuite with BeforeAndAfterEach with BeforeAndAfterAll  with Logging {
 
   implicit val order =  BinaryType.ordering
   var num = 1

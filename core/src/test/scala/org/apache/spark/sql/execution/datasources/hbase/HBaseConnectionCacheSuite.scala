@@ -22,7 +22,7 @@ package org.apache.spark.sql.execution.datasources.hbase
 
 import java.util.concurrent.ExecutorService
 
-import org.scalatest.FunSuite
+import org.scalatest.funsuite.AnyFunSuite
 import scala.util.Random
 
 import org.apache.hadoop.conf.Configuration
@@ -54,9 +54,9 @@ class ConnectionMocker extends Connection {
 
   def getConfiguration: Configuration = null
 
-  def getTable(tableName: TableName): Table = null
+  override def getTable(tableName: TableName): Table = null
 
-  def getTable(tableName: TableName, pool: ExecutorService): Table = null
+  override def getTable(tableName: TableName, pool: ExecutorService): Table = null
 
   def getBufferedMutator(params: BufferedMutatorParams): BufferedMutator = null
 
@@ -77,7 +77,7 @@ class ConnectionMocker extends Connection {
   def abort(why: String, e: Throwable) = {}
 }
 
-class HBaseConnectionCacheSuite extends FunSuite with Logging {
+class HBaseConnectionCacheSuite extends AnyFunSuite with Logging {
   /*
    * These tests must be performed sequentially as they operate with an
    * unique running thread and resource.

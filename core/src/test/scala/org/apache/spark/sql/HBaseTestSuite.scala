@@ -29,10 +29,11 @@ import org.apache.hadoop.hbase.client._
 import org.apache.hadoop.hbase.util.Bytes
 import org.apache.hadoop.hbase.{TableName, HBaseTestingUtility}
 import org.apache.spark.sql.execution.datasources.hbase.Logging
-import org.scalatest.{BeforeAndAfterAll, BeforeAndAfterEach, FunSuite}
+import org.scalatest.{BeforeAndAfterAll, BeforeAndAfterEach}
+import org.scalatest.funsuite.AnyFunSuite
 
-class HBaseTestSuite extends FunSuite with BeforeAndAfterEach with BeforeAndAfterAll  with Logging {
-  private[spark] var htu = HBaseTestingUtility.createLocalHTU()
+class HBaseTestSuite extends AnyFunSuite with BeforeAndAfterEach with BeforeAndAfterAll  with Logging {
+  private[spark] var htu = new HBaseTestingUtility()
   private[spark] var tableName: Array[Byte] = Bytes.toBytes("t1")
   private[spark] var columnFamily: Array[Byte] = Bytes.toBytes("cf0")
   private[spark] var columnFamilies: Array[Array[Byte]] =

@@ -30,9 +30,10 @@ import org.apache.hadoop.hbase.util.Bytes
 import org.apache.hadoop.hbase.{HBaseTestingUtility, TableName}
 import org.apache.spark.sql.execution.datasources.hbase.SparkHBaseConf
 import org.apache.spark.{SparkContext, SparkConf}
-import org.scalatest.{BeforeAndAfterAll, BeforeAndAfterEach, FunSuite}
+import org.scalatest.{BeforeAndAfterAll, BeforeAndAfterEach}
+import org.scalatest.funsuite.AnyFunSuite
 
-class SHC  extends FunSuite with BeforeAndAfterEach with BeforeAndAfterAll  with Logging {
+class SHC  extends AnyFunSuite with BeforeAndAfterEach with BeforeAndAfterAll  with Logging {
   implicit class StringToColumn(val sc: StringContext) {
     def $(args: Any*): ColumnName = {
       new ColumnName(sc.s(args: _*))
@@ -69,7 +70,7 @@ class SHC  extends FunSuite with BeforeAndAfterEach with BeforeAndAfterAll  with
                                             |}
                                          |}""".stripMargin
 
-  @deprecated(since = "04.12.2017(dd/mm/year)", message = "use `defineCatalog` instead")
+  @deprecated("use `defineCatalog` instead", "04.12.2017(dd/mm/year)")
   def catalog = defineCatalog(tableName)
 
   override def beforeAll() {

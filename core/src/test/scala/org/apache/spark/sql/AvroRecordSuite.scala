@@ -23,10 +23,11 @@ import java.nio.ByteBuffer
 import org.apache.avro.Schema
 import org.apache.avro.generic.GenericData
 import org.apache.spark.sql.execution.datasources.hbase.Logging
-import org.scalatest.{BeforeAndAfterAll, BeforeAndAfterEach, FunSuite}
+import org.scalatest.{BeforeAndAfterAll, BeforeAndAfterEach}
+import org.scalatest.funsuite.AnyFunSuite
 import org.apache.spark.sql.execution.datasources.hbase.types._
 
-class AvroRecordSuite extends FunSuite with BeforeAndAfterEach with BeforeAndAfterAll  with Logging {
+class AvroRecordSuite extends AnyFunSuite with BeforeAndAfterEach with BeforeAndAfterAll  with Logging {
 
   test("avro to schema converterBasic setup") {
     val schemaString  =
